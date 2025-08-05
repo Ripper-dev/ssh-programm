@@ -25,7 +25,7 @@ def build_exe():
     print("Начинаю сборку sshlite.exe...")
     try:
         subprocess.run(cmd, check=True)
-        print("\n✓ Сборка завершена!")
+        print("\nСборка завершена!")
         print("Исполняемый файл: dist/sshlite.exe")
     except subprocess.CalledProcessError as e:
         print(f"✗ Ошибка сборки: {e}")

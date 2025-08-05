@@ -1,4 +1,4 @@
-# SSH Клиент на Python
+# SSH Клиент sshlite v2.1
 
 **Автор:** dxddy/dante
 

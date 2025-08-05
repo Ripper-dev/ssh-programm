@@ -1,8 +1,28 @@
+import warnings
+warnings.filterwarnings("ignore")
+
 from ssh_client import SSHClient
 from config import ServerConfig
+from colorama import init, Fore, Style
+
+init(autoreset=True)
+
+def show_ascii_art():
+    art = f"""{Fore.CYAN}
+ ███████╗███████╗██╗  ██╗██╗     ██╗████████╗███████╗
+ ██╔════╝██╔════╝██║  ██║██║     ██║╚══██╔══╝██╔════╝
+ ███████╗███████╗███████║██║     ██║   ██║   █████╗  
+ ╚════██║╚════██║██╔══██║██║     ██║   ██║   ██╔══╝  
+ ███████║███████║██║  ██║███████╗██║   ██║   ███████╗
+ ╚══════╝╚══════╝╚═╝  ╚═╝╚══════╝╚═╝   ╚═╝   ╚══════╝
+                                                     
+                    {Fore.YELLOW}v2.1 by dxddy/dante{Style.RESET_ALL}
+"""
+    print(art)
 
 def show_menu():
-    print("\n=== SSH Клиент ===\nАвтор: dxddy/dante\n")
+    print(f"\n{Fore.CYAN}=== SSH Клиент sshlite v2.1 ==={Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}Автор: dxddy/dante{Style.RESET_ALL}\n")
     print("1. Подключиться к серверу")
     print("2. Показать сохраненные серверы")
     print("3. Добавить сервер в конфигурацию")
@@ -65,10 +85,8 @@ def interactive_session(ssh: SSHClient, username: str, hostname: str):
                 break
             
             output, error = ssh.execute_command(command)
-            if output:
-                print(output.strip())
             if error:
-                print(f"Ошибка: {error.strip()}")
+                print(f"{Fore.RED}Ошибка: {error.strip()}{Style.RESET_ALL}")
     
     except KeyboardInterrupt:
         print("\nВыход из сессии...")
@@ -92,14 +110,14 @@ def add_server():
         key_path = input("Путь к ключу: ")
         config.add_server(name, hostname, username, key_path=key_path, port=int(port))
     
-    print("Сервер добавлен!")
+    print(f"{Fore.GREEN}Сервер добавлен!{Style.RESET_ALL}")
 
 def show_servers():
     config = ServerConfig()
     servers = config.get_servers()
     
     if not servers:
-        print("Нет сохраненных серверов")
+        print(f"{Fore.YELLOW}Нет сохраненных серверов{Style.RESET_ALL}")
         return
     
     print("\nСохраненные серверы:")
@@ -107,6 +125,7 @@ def show_servers():
         print(f"- {server['name']}: {server['username']}@{server['hostname']}:{server['port']}")
 
 def main():
+    show_ascii_art()
     while True:
         choice = show_menu()
         
@@ -117,10 +136,10 @@ def main():
         elif choice == "3":
             add_server()
         elif choice == "4":
-            print("До свидания!")
+            print(f"{Fore.GREEN}До свидания!{Style.RESET_ALL}")
             break
         else:
-            print("Неверный выбор")
+            print(f"{Fore.RED}Неверный выбор{Style.RESET_ALL}")
 
 if __name__ == "__main__":
     main()
